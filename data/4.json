@@ -1,0 +1,132 @@
+{
+  "template_version": "2016-08-08",
+  "description": "",
+  "resources": {
+    "AvailableZone2": {
+      "type": "HW::HiCloud::AvailableZone",
+      "properties": {},
+      "metadata": {}
+    },
+    "VPC3": {
+      "type": "HW::HiCloud::VPC",
+      "properties": {
+        "VpcId": "",
+        "VpcName": ""
+      },
+      "metadata": {}
+    },
+    "Subnet3": {
+      "type": "HW::HiCloud::Subnet",
+      "properties": {
+        "SubnetId": "",
+        "CidrBlock": "",
+        "VpcId": "",
+        "NetworkType": "",
+        "SubnetName": ""
+      },
+      "metadata": {}
+    },
+    "Instance2": {
+      "type": "HW::HiCloud::Instance",
+      "properties": {
+        "AvailabilityZone": "",
+        "VpcId": "",
+        "Name": "",
+        "Nics": "",
+        "FlavorRef": "",
+        "ImageRef": ""
+      },
+      "DependsOn": [
+        "EIP2"
+      ],
+      "metadata": {}
+    },
+    "EIP2": {
+      "type": "HW::HiCloud::EIP",
+      "properties": {},
+      "metadata": {}
+    }
+  },
+  "relations": [
+    {
+      "type": "DependsOn",
+      "linkType": "depend",
+      "from": "Instance2",
+      "to": "EIP2"
+    }
+  ],
+  "metadata": [
+    {
+      "id": "AvailableZone2",
+      "type": "HW::HiCloud::AvailableZone",
+      "size": {
+        "width": 450,
+        "height": 280
+      },
+      "position": {
+        "x": 170,
+        "y": 70
+      }
+    },
+    {
+      "id": "VPC3",
+      "type": "HW::HiCloud::VPC",
+      "size": {
+        "width": 390,
+        "height": 230
+      },
+      "position": {
+        "x": 210,
+        "y": 120
+      },
+      "parent": "AvailableZone2"
+    },
+    {
+      "id": "Subnet3",
+      "type": "HW::HiCloud::Subnet",
+      "size": {
+        "width": 250,
+        "height": 150
+      },
+      "position": {
+        "x": 260,
+        "y": 160
+      },
+      "parent": "VPC3"
+    },
+    {
+      "id": "Instance2",
+      "type": "HW::HiCloud::Instance",
+      "size": {
+        "width": 72,
+        "height": 72
+      },
+      "position": {
+        "x": 356,
+        "y": 190
+      },
+      "parent": "Subnet3"
+    },
+    {
+      "id": "EIP2",
+      "type": "HW::HiCloud::EIP",
+      "size": {
+        "width": 72,
+        "height": 72
+      },
+      "position": {
+        "x": 810,
+        "y": 250
+      }
+    }
+  ],
+  "parameters": {
+    "custom_properties": {
+      "type": "json",
+      "alias": "UserDefine",
+      "default": ""
+    }
+  },
+  "mappings": {},
+  "exports": {}
+}

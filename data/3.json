@@ -1,0 +1,114 @@
+{
+  "template_version": "2016-08-08",
+  "description": "",
+  "resources": {
+    "VPC1": {
+      "type": "HW::HiCloud::VPC",
+      "properties": {
+        "VpcId": "",
+        "VpcName": ""
+      },
+      "metadata": {}
+    },
+    "EIP1": {
+      "type": "HW::HiCloud::EIP",
+      "properties": {},
+      "metadata": {}
+    },
+    "Subnet1": {
+      "type": "HW::HiCloud::Subnet",
+      "properties": {
+        "SubnetId": "",
+        "CidrBlock": "",
+        "VpcId": "",
+        "NetworkType": "",
+        "SubnetName": ""
+      },
+      "metadata": {}
+    },
+    "Instance1": {
+      "type": "HW::HiCloud::Instance",
+      "properties": {
+        "AvailabilityZone": "",
+        "VpcId": "",
+        "Name": "",
+        "Nics": "",
+        "FlavorRef": "",
+        "ImageRef": ""
+      },
+      "DependsOn": [
+        "EIP1"
+      ],
+      "metadata": {}
+    }
+  },
+  "relations": [
+    {
+      "type": "DependsOn",
+      "linkType": "depend",
+      "from": "Instance1",
+      "to": "EIP1"
+    }
+  ],
+  "metadata": [
+    {
+      "id": "VPC1",
+      "type": "HW::HiCloud::VPC",
+      "size": {
+        "width": 340,
+        "height": 210
+      },
+      "position": {
+        "x": 120,
+        "y": 40
+      }
+    },
+    {
+      "id": "EIP1",
+      "type": "HW::HiCloud::EIP",
+      "size": {
+        "width": 72,
+        "height": 72
+      },
+      "position": {
+        "x": 670,
+        "y": 205
+      }
+    },
+    {
+      "id": "Subnet1",
+      "type": "HW::HiCloud::Subnet",
+      "size": {
+        "width": 210,
+        "height": 130
+      },
+      "position": {
+        "x": 170,
+        "y": 75
+      },
+      "parent": "VPC1"
+    },
+    {
+      "id": "Instance1",
+      "type": "HW::HiCloud::Instance",
+      "size": {
+        "width": 72,
+        "height": 72
+      },
+      "position": {
+        "x": 240,
+        "y": 104
+      },
+      "parent": "Subnet1"
+    }
+  ],
+  "parameters": {
+    "custom_properties": {
+      "type": "json",
+      "alias": "UserDefine",
+      "default": ""
+    }
+  },
+  "mappings": {},
+  "exports": {}
+}
