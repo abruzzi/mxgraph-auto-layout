@@ -50,7 +50,7 @@ function main(container, data) {
             _.each(data.relations, function(item) {
                 var from  = obj[item.from];
                 var to = obj[item.to];
-                graph.insertEdge(parent, null, null, from, to);
+                graph.insertEdge(parent, null, item.type, from, to);
             });
 
             g = toGraphLib(graph);
