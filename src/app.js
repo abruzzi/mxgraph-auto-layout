@@ -123,7 +123,7 @@ function updateInputGraph(graph, glGraph, opt) {
         .value();
 }
 
-function main(container) {
+function main(container, data) {
     if (!mxClient.isBrowserSupported()) {
         mxUtils.error('Browser is not supported!', 200, false);
     } else {
@@ -134,40 +134,17 @@ function main(container) {
 
         graph.getModel().beginUpdate();
         try {
-            var v0 = graph.insertVertex(parent, null, "0", 0, 0, 240, 30);
-            var v1 = graph.insertVertex(parent, null, "1", 0, 0, 240, 30);
-            graph.insertEdge(parent, null, null, v0, v1);
+            var obj = {};
+            var nodes = _.each(data.resources, function(v, k) {
+                obj[k] = graph.insertVertex(parent, null, k, 0, 0, 100, 100);
+            });
 
-            var v2 = graph.insertVertex(parent, null, "2", 0, 0, 240, 30, 'o1');
-            var v21 = graph.insertVertex(v2, null, "2.1", 0, 0, 30, 30);
-            var v22 = graph.insertVertex(v2, null, "2.2", 0, 0, 30, 30);
-            var v23 = graph.insertVertex(v2, null, "2.3", 0, 0, 30, 30);
-            var v220 = graph.insertVertex(v2, null, "2.2.*", 0, 0, 30, 30);
-            var v221 = graph.insertVertex(v220, null, "2.2.1", 0, 0, 30, 30);
-            var v222 = graph.insertVertex(v220, null, "2.2.2", 0, 0, 30, 30);
+            _.each(data.relations, function(item) {
+                var from  = obj[item.from];
+                var to = obj[item.to];
+                graph.insertEdge(parent, null, null, from, to);
+            });
 
-            graph.insertEdge(parent, null, null, v23, v221);
-            graph.insertEdge(parent, null, null, v23, v222);
-            graph.insertEdge(parent, null, null, v22, v221);
-            graph.insertEdge(parent, null, null, v1, v21);
-            graph.insertEdge(parent, null, null, v21, v22);
-            graph.insertEdge(parent, null, null, v21, v23);
-
-            var v3 = graph.insertVertex(parent, null, "3", 0, 0, 240, 30);
-            graph.insertEdge(parent, null, null, v1, v3);
-            graph.insertEdge(parent, null, null, v3, v2);
-            graph.insertEdge(parent, null, null, v3, v220);
-            
-            var v4 = graph.insertVertex(parent, null, "4", 0, 0, 0, 0);
-            var v5 = graph.insertVertex(v4, null, "5", 0, 0, 40, 40);
-            var v6 = graph.insertVertex(v4, null, "6", 0, 0, 40, 40);
-            var v7 = graph.insertVertex(v4, null, "7", 0, 0, 40, 40);
-            
-            graph.insertEdge(parent, null, null, v5, v6);
-            graph.insertEdge(parent, null, null, v3, v5);
-            graph.insertEdge(parent, null, null, v6, v7);
-            graph.insertEdge(parent, null, null, v7, v0);
-            
             g = toGraphLib(graph);
             dagre.layout(g);
             
@@ -179,9 +156,8 @@ function main(container) {
 }
 
 window.onload = function() {
-    main(document.getElementById('graphContainer'));
+    var container = document.getElementById('graphContainer');
+    $.get('/data/1.json').done(function(data) {
+        main(container, data);
+    });
 }
-
-// $(function() {
-// main(document.getElementById('#graphContainer'));
-// });
