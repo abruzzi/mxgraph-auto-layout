@@ -47,12 +47,24 @@ function main(container, data) {
                 obj[k] = graph.insertVertex(parent, null, k, 0, 0, 100, 100);
             });
 
+            var containers = _.filter(data.metadata, function(item) {
+                return item.parent !== undefined;
+            });
+
+            _.each(containers, function(container) {
+                var child = obj[container.id];
+                var parent = obj[container.parent];
+
+                child.removeFromParent();
+                parent.insert(child);
+            });
+
             _.each(data.relations, function(item) {
                 var from  = obj[item.from];
                 var to = obj[item.to];
-                graph.insertEdge(parent, null, item.type, from, to);
+                graph.insertEdge(parent, null, null, from, to);
             });
-
+            
             g = toGraphLib(graph);
             dagre.layout(g);
             
@@ -65,7 +77,7 @@ function main(container, data) {
 
 window.onload = function() {
     var container = document.getElementById('graphContainer');
-    $.get('/data/1.json').done(function(data) {
+    $.get('/data/4.json').done(function(data) {
         main(container, data);
     });
 }

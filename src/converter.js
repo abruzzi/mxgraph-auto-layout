@@ -28,7 +28,11 @@ function toGraphLib(graph) {
     glGraph.setGraph({});
     for (var id in graphModel.cells) {
         var cell = graphModel.cells[id];
-        if (cell.isEdge() && (cell.target.children == null)) { //dagre can't handle edges on compound nodes   https://github.com/cytoscape/cytoscape.js-dagre/blob/master/cytoscape-dagre.js:126
+        // dagre can't handle edges on compound nodes   
+        // https://github.com/cytoscape/cytoscape.js-dagre/blob/master/cytoscape-dagre.js:126
+        if (cell.isEdge() && 
+            (cell.target.children == null) && 
+            (cell.source.children == null)) { 
             var source = cell.source;
             var target = cell.target;
             if (!source.id || !target.id) return;
@@ -36,7 +40,7 @@ function toGraphLib(graph) {
         } else if (cell.isVertex()) {
             glGraph.setNode(cell.getId(), setNodeLabel(cell));
             if (glGraph.isCompound() && (cell.getParent() != null)) {
-                console.log("set parent for " + cell.id + " parent is " + cell.getParent().value);
+                console.log("set parent for " + cell.value + " parent is " + cell.getParent().value);
                 glGraph.setParent(cell.id, cell.getParent().id);
             }
         }
